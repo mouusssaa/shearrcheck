@@ -33,3 +33,4 @@ if st.button("Check Shear"):
         st.write(f"Vc = {Vc_rounded} kN")
         st.write(f"φVc = {phi_Vc} kN")
         st.write(f"Vc-max = {round(v_max)} kN")
+        st.write(f"φVc-max = {round(Oo * v_max)} kN")
