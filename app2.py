@@ -5,11 +5,11 @@ st.title("Two-Way Shear Check (ACI 318-19)")
 
 Oo = 0.75
 
-thickness = st.number_input("Enter Slab Thickness (mm):", min_value=1.0)
-Cx = st.number_input("Enter Cx (mm):", min_value=1.0)
-Cy = st.number_input("Enter Cy (mm):", min_value=1.0)
-Vu = st.number_input("Enter Vu (kN):", min_value=0.0)
-Fc = st.number_input("Enter f'c (MPa):", min_value=0.0)
+thickness = st.number_input("Enter Slab Thickness (mm):", min_value=1.0, step = 10.0 )
+Cx = st.number_input("Enter Cx (mm):", min_value=1.0, step = 10.0 )
+Cy = st.number_input("Enter Cy (mm):", min_value=1.0, step = 10.0 )
+Vu = st.number_input("Enter Vu (kN):", min_value=0.0, step = 50.0 )
+Fc = st.number_input("Enter f'c (MPa):", min_value=0.0, step = 5.0 )
 
 if st.button("Check Shear"):
     d = thickness - 35
