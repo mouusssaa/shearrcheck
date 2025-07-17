@@ -4,9 +4,8 @@ import math
 st.set_page_config(page_title="Punching Shear Check", layout="centered")
 st.title("🔍 Two-Way Punching Shear Check (ACI 318-19)")
 
-Oo = 0.75  # Strength reduction factor
+Oo = 0.75  
 
-# --- User Inputs ---
 st.header("Input Parameters")
 col1, col2 = st.columns(2)
 with col1:
@@ -21,22 +20,21 @@ with col2:
 fc = st.number_input("Concrete compressive strength f'c (MPa)", min_value=0.0, step=5.0)
 
 if st.button("🔎 Run Check"):
-    d = h - 35  # Effective depth
+    d = h - 35  
     b = 2 * (Cx + Cy + 2 * d)
-    Vc = 0.33 * math.sqrt(fc) * b * d * 1e-3  # kN
+    Vc = 0.33 * math.sqrt(fc) * b * d * 10 ** -3
     Vc_max = 2 * Vc
 
     D_d = d / 2
     Bo = 2 * ((Cx + 2 * D_d) + (Cy + 2 * D_d))
     vu_direct = Vu / (Bo * d)
-    eX = (Mux * 1e3) / (Vu * 1e3) * 1e3  # in mm
-    eY = (Muy * 1e3) / (Vu * 1e3) * 1e3
+    eX = (Mux * 1e3) / (Vu * 1e3) * 10 ** 3 
+    eY = (Muy * 1e3) / (Vu * 1e3) * 10 ** 3
     eEQ = math.sqrt(eX**2 + eY**2)
     r = (Cx + d + Cy + d) / 2
     B_b = 1 + ((1.5 * eEQ) / r)
-    vu = B_b * (Vu / (Bo * d)) * 1e3  # in MPa
+    vu = B_b * (Vu / (Bo * d)) * 10 ** 3
 
-    # --- Results Section ---
     st.subheader("🔎 Result")
     if vu > Oo * Vc:
         st.error("❌ FAILED: Even when including moments in both directions, the slab FAILS in punching shear.")
@@ -46,8 +44,7 @@ if st.button("🔎 Run Check"):
         st.warning("⚠️ SUCCEEDED: But shear reinforcement is needed.")
     else:
         st.error("❌ FAILED: Even with shear reinforcement.")
-
-    # --- Optional Calculations ---
+        
     with st.expander("📐 Show Calculations"):
         st.write(f"**b** = {round(b)} mm")
         st.write(f"**Effective depth d** = {round(d)} mm")
