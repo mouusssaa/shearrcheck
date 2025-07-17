@@ -17,11 +17,11 @@ if st.button("Check Shear"):
     Vc = 0.17 * math.sqrt(Fc) * b * d * 1e-3  # ACI 318-19 for slabs
     Vc_rounded = round(Vc, 1)
     phi_Vc = round(Oo * Vc, 1)
+    v_max = 2 * Vc
 
     if Vu <= Oo * Vc:
         st.success("✅ SUCCEEDED: No reinforcement needed.")
     else:
-        v_max = 2 * Vc
         if Vu <= Oo * v_max:
             st.warning("⚠️ SUCCEEDED: Shear reinforcement is needed.")
         else:
