@@ -48,20 +48,6 @@ if st.button("🔎 Run Check"):
     else:
         st.error("❌ FAILED: Even with shear reinforcement.")
 
-    # --- Optional Calculations ---
-    with st.expander("📐 Show Calculations"):
-        st.write(f"**b** = {round(b)} mm")
-        st.write(f"**Effective depth d** = {round(d)} mm")
-        st.write(f"**Vc** = {round(Vc)} kN")
-        st.write(f"**φVc** = {round(Oo * Vc)} kN")
-        st.write(f"**Vc-max** = {round(Vc_max)} kN")
-        st.write(f"**φVc-max** = {round(Vc_max * Oo)} kN")
-        st.write(f"**eX** = {round(eX, 2)} mm")
-        st.write(f"**eY** = {round(eY, 2)} mm")
-        st.write(f"**eEQ** = {round(eEQ, 2)} mm")
-        st.write(f"**β (B_b)** = {round(B_b, 3)}")
-        st.write(f"**vu** = {round(vu, 2)} MPa")
-
     if i == "l" :
         with st.expander("spacing?") :
             fy = st.number_input("Enter f yeild in MPa: ")
@@ -79,5 +65,21 @@ if st.button("🔎 Run Check"):
                     st.success(f"**Vs equation ({round(vs)}kN) = Vs actual ({round(Vs)}kN) **")
                 else :
                     st.error(f"**Vs equation ({round(vs)}kN) < Vs actual ({round(Vs)}kN) **")
+    
+    # --- Optional Calculations ---
+    with st.expander("📐 Show Calculations"):
+        st.write(f"**b** = {round(b)} mm")
+        st.write(f"**Effective depth d** = {round(d)} mm")
+        st.write(f"**Vc** = {round(Vc)} kN")
+        st.write(f"**φVc** = {round(Oo * Vc)} kN")
+        st.write(f"**Vc-max** = {round(Vc_max)} kN")
+        st.write(f"**φVc-max** = {round(Vc_max * Oo)} kN")
+        st.write(f"**eX** = {round(eX, 2)} mm")
+        st.write(f"**eY** = {round(eY, 2)} mm")
+        st.write(f"**eEQ** = {round(eEQ, 2)} mm")
+        st.write(f"**β (B_b)** = {round(B_b, 3)}")
+        st.write(f"**vu** = {round(vu, 2)} MPa")
+
+   
 
             
