@@ -1,6 +1,8 @@
 import streamlit as st
 import math
 
+condition = True
+
 st.set_page_config(page_title="Punching Shear Check", layout="centered")
 st.title("🔍 Two-Way Punching Shear Check (ACI 318-19)")
 
@@ -44,18 +46,22 @@ if st.button("🔎 Run Check"):
         st.success("✅ SUCCEEDED: No reinforcement needed.")
     elif Vu <= Oo * Vc_max:
         st.warning("⚠️ SUCCEEDED: But shear reinforcement is needed.")
-        i = "l"
+        st.session_state.show_inputs = True
+
     else:
         st.error("❌ FAILED: Even with shear reinforcement.")
 
-    if i == "l" :
-        with st.button("spacing?") :
-            fy = st.number_input("Enter f yeild in MPa: ")
+
+    if condition:
+        if 'show_inputs' not in st.session_state:
+            st.session_state.show_inputs = False
+
+        if st.session_state.show_inputs:
+            y = st.number_input("Enter f yeild in MPa: ")
             no = st.number_input("Enter number of legs you want to assume: ")
             diameter = st.number_input("Enter the bar diameter you want to assume: ")
             spacing = st.number_input("Enter the spacing in mm: ")
-            
-            if st.button("calculte") : 
+            if st.button("Submit"):
                 Vs = (Vu - (Oo * Vc)) / Oo
                 As = ((diameter / 2) ** 2 * 3.14 )
                 vs = (As * fy * d * no) / (spacing * 1000)
