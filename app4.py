@@ -49,7 +49,7 @@ if st.button("🔎 Run Check"):
         st.error("❌ FAILED: Even with shear reinforcement.")
 
     if i == "l" :
-        with st.expander("spacing?") :
+        with st.button("spacing?") :
             fy = st.number_input("Enter f yeild in MPa: ")
             no = st.number_input("Enter number of legs you want to assume: ")
             diameter = st.number_input("Enter the bar diameter you want to assume: ")
