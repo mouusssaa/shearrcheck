@@ -50,24 +50,27 @@ if st.session_state["run_check"]:
     st.subheader("📊 Punching Shear Check Result")
     if vu > Oo * Vc:
         st.error("❌ FAILED: The slab fails in punching shear even with moments included.")
+        
+        show_shear_design = False
         if Vu <= Oo * Vc_max:
             st.warning("⚠️ Shear Reinforcement is needed.")
+            show_shear_design = True
+            if show_shear_design:
+                with st.expander("spacing?"):
+                    fy = st.number_input("f yield (MPa)", min_value=0.0, step=50.0)
+                    no = st.number_input("Number of legs", min_value=1.0, step=1.0)
+                    diameter = st.number_input("Bar diameter (mm)", min_value=4.0, step=1.0)
+                    spacing = st.number_input("Assumed spacing (mm)", min_value=10.0, step=5.0)
 
-            with st.expander("🧮 Shear Reinforcement Design"):
-                fy = st.number_input("Yield strength fy (MPa)", min_value=0.0, step=50.0, key="fy")
-                no = st.number_input("Number of legs", min_value=1.0, step=1.0, key="legs")
-                diameter = st.number_input("Bar diameter (mm)", min_value=4.0, step=1.0, key="dia")
-                spacing = st.number_input("Assumed spacing (mm)", min_value=10.0, step=5.0, key="spacing")
+                    if fy > 0 and diameter > 0 and spacing > 0:
+                        Vs = (Vu - (Oo * Vc)) / Oo  # Required shear strength
+                        As = (math.pi * (diameter / 2) ** 2)  # mm²
+                        vs = (As * fy * d * no) / (spacing * 1000)  # kN
 
-                if fy > 0 and diameter > 0 and spacing > 0:
-                    Vs = (Vu - (Oo * Vc)) / Oo  # Required shear strength
-                    As = (math.pi * (diameter / 2) ** 2)  # mm²
-                    vs = (As * fy * d * no) / (spacing * 1000)  # kN
-
-                    if vs >= Vs:
-                        st.success(f"✅ OK: vs = {round(vs)} kN ≥ Vs_required = {round(Vs)} kN")
-                    else:
-                        st.error(f"❌ NOT OK: vs = {round(vs)} kN < Vs_required = {round(Vs)} kN")
+                        if vs >= Vs:
+                            st.success(f"✅ OK: vs = {round(vs)} kN ≥ Vs_required = {round(Vs)} kN")
+                        else:
+                            st.error(f"❌ NOT OK: vs = {round(vs)} kN < Vs_required = {round(Vs)} kN")
         else:
             st.error("❌ FAILED: Even with shear reinforcement, the slab does not satisfy the punching shear check.")
     elif Vu <= Oo * Vc:
