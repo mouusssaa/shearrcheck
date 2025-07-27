@@ -85,7 +85,7 @@ def main():
             st.subheader("Shear Reinforcement Check")
 
             fy = st.number_input("Yield strength fy (MPa)", min_value=100.0, max_value=600.0, value=415.0, step=5.0)
-            no = st.number_input("Number of legs", min_value=1, max_value=10, value=2, step=1)
+            no = st.number_input("Number of legs", min_value=1, max_value=30, value=2, step=1)
             diameter = st.number_input("Bar diameter (mm)", min_value=5.0, max_value=50.0, value=12.0, step=1.0)
             spacing = st.number_input("Spacing (mm)", min_value=50.0, max_value=1000.0, value=200.0, step=10.0)
 
