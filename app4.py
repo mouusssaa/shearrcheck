@@ -2,7 +2,7 @@
 import streamlit as st
 import math
 
-st.set_page_config(page_title="Punching Shear Check", layout="wide")
+st.set_page_config(page_title="Punching Shear Check", layout="centered")
 st.title("🔍 Two-Way Punching Shear Check (ACI 318-19)")
 
 # --- Constants ---
@@ -78,15 +78,15 @@ if st.session_state.run_check:
         st.success("✅ SUCCEEDED: No shear reinforcement required.")
 
     # --- Optional Calculation Output ---
-    st.header("📐 Calculation Details")
-    st.markdown(f"**Effective Depth d** = `{round(d)} mm`")
-    st.markdown(f"**Critical Perimeter b** = `{round(b)} mm`")
-    st.markdown(f"**Concrete Shear Vc** = `{round(Vc)} kN`")
-    st.markdown(f"**φVc** = `{round(phi * Vc)} kN`")
-    st.markdown(f"**Max Vc (2·Vc)** = `{round(Vc_max)} kN`")
-    st.markdown(f"**φVc-max** = `{round(phi * Vc_max)} kN`")
-    st.markdown(f"**eX** = `{round(eX, 2)} mm`")
-    st.markdown(f"**eY** = `{round(eY, 2)} mm`")
-    st.markdown(f"**eEQ** = `{round(eEQ, 2)} mm`")
-    st.markdown(f"**β (Amplification)** = `{round(B_b, 3)}`")
-    st.markdown(f"**vu** = `{round(vu, 2)} MPa`")
+    with st.expander("📐 Calculation Details"):
+        st.markdown(f"**Effective Depth d** = `{round(d)} mm`")
+        st.markdown(f"**Critical Perimeter b** = `{round(b)} mm`")
+        st.markdown(f"**Concrete Shear Vc** = `{round(Vc)} kN`")
+        st.markdown(f"**φVc** = `{round(phi * Vc)} kN`")
+        st.markdown(f"**Max Vc (2·Vc)** = `{round(Vc_max)} kN`")
+        st.markdown(f"**φVc-max** = `{round(phi * Vc_max)} kN`")
+        st.markdown(f"**eX** = `{round(eX, 2)} mm`")
+        st.markdown(f"**eY** = `{round(eY, 2)} mm`")
+        st.markdown(f"**eEQ** = `{round(eEQ, 2)} mm`")
+        st.markdown(f"**β (Amplification)** = `{round(B_b, 3)}`")
+        st.markdown(f"**vu** = `{round(vu, 2)} MPa`")
