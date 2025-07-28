@@ -1,37 +1,31 @@
-# --- Initial Setup ---
 import streamlit as st
 import math
 
 st.set_page_config(page_title="Punching Shear Check", layout="centered")
-st.title("🔍 Two-Way Punching Shear Check (ACI 318-19)")
+st.title("Two-Way Punching Shear Check (ACI 318-19)")
 
-# --- Constants ---
 phi = 0.75
-cover = 35  # mm
+cover = 35  
 
-# --- Setup Session State ---
 if "run_check" not in st.session_state:
     st.session_state.run_check = False
 
-# --- Input Section ---
-st.header("📥 Input Parameters")
+st.header("Input Parameters")
 col1, col2 = st.columns(2)
 with col1:
-    Cx = st.number_input("Column dimension Cx (mm)", min_value=0.0, step=10.0)
-    Vu = st.number_input("Factored shear Vu (kN)", min_value=0.0, step=10.0)
-    Mux = st.number_input("Moment Mux (kN·m)", min_value=0.0, step=10.0)
+    Cx = st.number_input("Cx (mm)", min_value=0.0, step=10.0)
+    Vu = st.number_input("Vu (kN)", min_value=0.0, step=10.0)
+    Mux = st.number_input("Mux (kN·m)", min_value=0.0, step=10.0)
 with col2:
-    Cy = st.number_input("Column dimension Cy (mm)", min_value=0.0, step=10.0)
+    Cy = st.number_input("Cy (mm)", min_value=0.0, step=10.0)
     h = st.number_input("Slab thickness h (mm)", min_value=0.0, step=10.0)
-    Muy = st.number_input("Moment Muy (kN·m)", min_value=0.0, step=10.0)
+    Muy = st.number_input("Muy (kN·m)", min_value=0.0, step=10.0)
 
 fc = st.number_input("Concrete compressive strength f'c (MPa)", min_value=0.0, step=5.0)
 
-# --- Trigger Button ---
-if st.button("🔎 Run Check"):
-    st.session_state.run_check = True  # Store trigger flag
+if st.button("Run Check"):
+    st.session_state.run_check = True 
 
-# --- Run Punching Shear Check If Triggered ---
 if st.session_state.run_check:
     d = h - cover
     b = 2 * (Cx + Cy + 2 * d)
@@ -47,46 +41,43 @@ if st.session_state.run_check:
     B_b = 1 + ((1.5 * eEQ) / r)
     vu = B_b * (Vu / (Bo * d)) * 1e3
 
-    # --- Results Display ---
-    st.subheader("📊 Punching Shear Check Result")
+    st.subheader("Punching Shear Check Result")
 
     if Vu > phi * Vc_max:
-        st.error("❌ FAILED: Even with shear reinforcement.")
+        st.error("FAILED: Even with shear reinforcement.")
     elif Vu > phi * Vc:
-        st.warning("⚠️ SUCCEEDED: But shear reinforcement is required.")
+        st.warning("SUCCEEDED: But shear reinforcement is required.")
 
-        # --- Shear Reinforcement Section ---
-        st.subheader("🧮 Shear Reinforcement Design")
+        st.subheader("Shear Reinforcement Design")
         fy = st.number_input("Yield Strength fy (MPa)", min_value=0.0, step=10.0, key="fy")
         no_legs = st.number_input("Number of Legs", min_value=1, step=1, key="legs")
         dia = st.number_input("Bar Diameter (mm)", min_value=6.0, step=2.0, key="dia")
-        spacing = st.number_input("Stirrup Spacing (mm)", min_value=50.0, step=25.0, key="spacing")
+        spacing = st.number_input("Spacing (mm)", min_value=50.0, step=25.0, key="spacing")
 
-        if st.button("🔧 Check Reinforcement"):
+        if st.button("Check Reinforcement"):
             As = math.pi * (dia / 2) ** 2
-            vs = (As * fy * d * no_legs) / (spacing * 1000)  # kN
+            vs = (As * fy * d * no_legs) / (spacing * 1000)  
             Vs_required = (Vu - phi * Vc) / phi
 
-            st.write(f"🔹 Required Vs: `{Vs_required:.2f} kN`")
-            st.write(f"🔹 Provided Vs: `{vs:.2f} kN`")
+            st.write(f"Actual Vs: `{Vs_required:.2f} kN`")
+            st.write(f"Equation Vs: `{vs:.2f} kN`")
 
             if vs >= Vs_required:
-                st.success("✅ Shear reinforcement is sufficient.")
+                st.success("Shear reinforcement is enough.")
             else:
-                st.error("❌ Shear reinforcement is NOT sufficient.")
+                st.error("Shear reinforcement is NOT enough.")
     else:
-        st.success("✅ SUCCEEDED: No shear reinforcement required.")
+        st.success("SUCCEEDED: No shear reinforcement required.")
 
-    # --- Optional Calculation Output ---
-    with st.expander("📐 Calculation Details"):
+    with st.expander("Calculation Details"):
         st.markdown(f"**Effective Depth d** = `{round(d)} mm`")
-        st.markdown(f"**Critical Perimeter b** = `{round(b)} mm`")
-        st.markdown(f"**Concrete Shear Vc** = `{round(Vc)} kN`")
+        st.markdown(f"**Perimeter b** = `{round(b)} mm`")
+        st.markdown(f"**Vc** = `{round(Vc)} kN`")
         st.markdown(f"**φVc** = `{round(phi * Vc)} kN`")
-        st.markdown(f"**Max Vc (2·Vc)** = `{round(Vc_max)} kN`")
+        st.markdown(f"**Vc-Max (2·Vc)** = `{round(Vc_max)} kN`")
         st.markdown(f"**φVc-max** = `{round(phi * Vc_max)} kN`")
         st.markdown(f"**eX** = `{round(eX, 2)} mm`")
         st.markdown(f"**eY** = `{round(eY, 2)} mm`")
         st.markdown(f"**eEQ** = `{round(eEQ, 2)} mm`")
-        st.markdown(f"**β (Amplification)** = `{round(B_b, 3)}`")
+        st.markdown(f"**β** = `{round(B_b, 3)}`")
         st.markdown(f"**vu** = `{round(vu, 2)} MPa`")
