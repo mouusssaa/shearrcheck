@@ -47,21 +47,23 @@ if st.button("🔎 Run Check"):
     elif Vu <= Oo * Vc_max:
         st.warning("⚠️ SUCCEEDED: But shear reinforcement is needed.")
         
-        with st.expander("spacing?") :
-            fy = st.number_input("Enter f yeild in MPa: ")
-            no = st.number_input("Enter number of legs you want to assume: ")
-            diameter = st.number_input("Enter the bar diameter you want to assume: ")
-            spacing = st.number_input("Enter the spacing in mm: ")
-            if st.button("Submit"):
+        tr = st.checkbox("spacing?")
+        
+        if tr :
+            fy = st.sidebar.number_input("Enter f yeild in MPa: ")
+            no = st.sidebar.number_input("Enter number of legs you want to assume: ")
+            diameter = st.sidebar.number_input("Enter the bar diameter you want to assume: ")
+            spacing = st.sidebar.number_input("Enter the spacing in mm: ")
+            if st.sidebar.button("Submit"):
                 Vs = (Vu - (Oo * Vc)) / Oo
                 As = ((diameter / 2) ** 2 * 3.14 )
                 vs = (As * fy * d * no) / (spacing * 1000)
                 if vs > Vs:
-                    st.success(f"**Vs equation ({round(vs)}kN) > Vs actual ({round(Vs)}kN) **")
+                    st.sidebar.success(f"**Vs equation ({round(vs)}kN) > Vs actual ({round(Vs)}kN) **")
                 elif vs == Vs:
-                    st.success(f"**Vs equation ({round(vs)}kN) = Vs actual ({round(Vs)}kN) **")
+                    st.sidebar.success(f"**Vs equation ({round(vs)}kN) = Vs actual ({round(Vs)}kN) **")
                 else :
-                    st.error(f"**Vs equation ({round(vs)}kN) < Vs actual ({round(Vs)}kN) **")
+                    st.sidebar.error(f"**Vs equation ({round(vs)}kN) < Vs actual ({round(Vs)}kN) **")
 
     else:
         st.error("❌ FAILED: Even with shear reinforcement.")
