@@ -46,18 +46,9 @@ if st.button("🔎 Run Check"):
         st.success("✅ SUCCEEDED: No reinforcement needed.")
     elif Vu <= Oo * Vc_max:
         st.warning("⚠️ SUCCEEDED: But shear reinforcement is needed.")
-        st.session_state.show_inputs = True
-
-    else:
-        st.error("❌ FAILED: Even with shear reinforcement.")
-
-
-    if condition:
-        if 'show_inputs' not in st.session_state:
-            st.session_state.show_inputs = False
-
-        if st.session_state.show_inputs:
-            y = st.number_input("Enter f yeild in MPa: ")
+        
+        with st.expander:
+            fy = st.number_input("Enter f yeild in MPa: ")
             no = st.number_input("Enter number of legs you want to assume: ")
             diameter = st.number_input("Enter the bar diameter you want to assume: ")
             spacing = st.number_input("Enter the spacing in mm: ")
@@ -71,6 +62,10 @@ if st.button("🔎 Run Check"):
                     st.success(f"**Vs equation ({round(vs)}kN) = Vs actual ({round(Vs)}kN) **")
                 else :
                     st.error(f"**Vs equation ({round(vs)}kN) < Vs actual ({round(Vs)}kN) **")
+
+    else:
+        st.error("❌ FAILED: Even with shear reinforcement.")
+            
     
     # --- Optional Calculations ---
     with st.expander("📐 Show Calculations"):
