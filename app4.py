@@ -47,7 +47,7 @@ if st.button("🔎 Run Check"):
     elif Vu <= Oo * Vc_max:
         st.warning("⚠️ SUCCEEDED: But shear reinforcement is needed.")
         
-        with st.expander:
+        with st.expander("spacing?") :
             fy = st.number_input("Enter f yeild in MPa: ")
             no = st.number_input("Enter number of legs you want to assume: ")
             diameter = st.number_input("Enter the bar diameter you want to assume: ")
