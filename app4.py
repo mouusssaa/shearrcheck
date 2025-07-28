@@ -2,7 +2,7 @@
 import streamlit as st
 import math
 
-st.set_page_config(page_title="Punching Shear Check", layout="centered")
+st.set_page_config(page_title="Punching Shear Check", layout="wide")
 st.title("🔍 Two-Way Punching Shear Check (ACI 318-19)")
 
 # --- Constants ---
