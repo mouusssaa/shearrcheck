@@ -49,7 +49,7 @@ if st.session_state.run_check:
         st.warning("SUCCEEDED: But shear reinforcement is required.")
 
         st.subheader("Shear Reinforcement Design")
-        fy = st.number_input("Yield Strength fy (MPa)", min_value=0.0, step=10.0, key="fy")
+        fy = st.number_input("Yield Strength fy (MPa)",value = 420, min_value=0.0, step=10.0, key="fy")
         no_legs = st.number_input("Number of Legs", min_value=1, step=1, key="legs")
         dia = st.number_input("Bar Diameter (mm)", min_value=6.0, step=2.0, key="dia")
         spacing = st.number_input("Spacing (mm)", min_value=50.0, step=25.0, key="spacing")
