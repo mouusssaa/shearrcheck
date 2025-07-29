@@ -81,3 +81,4 @@ if st.session_state.run_check:
         st.markdown(f"**eEQ** = `{round(eEQ, 2)} mm`")
         st.markdown(f"**β** = `{round(B_b, 3)}`")
         st.markdown(f"**vu** = `{round(vu, 2)} MPa`")
+        st.markdown(f"**D / C = `{round(Vu / (phi * Vc), 2)}`**"
